@@ -1,0 +1,5 @@
+Value AP (\S+)
+Value IP (\d+\.\d+\.\d+\.\d+)
+
+Start
+	^${AP}.*AU\s+${IP}.* -> Record

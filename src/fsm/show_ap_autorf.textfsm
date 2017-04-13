@@ -1,0 +1,8 @@
+Value Transmit (\d+)
+Value Channel (\d+)
+Value Client (\d+)
+
+Start
+	^\s+Transmit Utilization.*${Transmit} % 
+	^\s+Channel Utilization.*${Channel} % 
+	^\s+ Attached Clients.*${Client} clients -> Record
