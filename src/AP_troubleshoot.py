@@ -27,7 +27,7 @@ def get_ap(wlc):
             w.execCLI('show ap auto-rf 802.11a ' + ap_entry[0])
             ap_fsm_results = ap_re_table.ParseText(w.output)[0]
 
-            if ap_fsm_results[1] >=0:
+            if int(ap_fsm_results[1])>=80:
                 print ("WLCView AP:%s, TX:%s, Util:%s, Client:%s" %(ap_entry[0],ap_fsm_results[0],ap_fsm_results[1], ap_fsm_results[2]))
                 w.execCLI("config ap SSH enable " + ap_entry[0])
                 print ("Enable ssh for %s: %s" % (ap_entry[0],w.output))
