@@ -15,6 +15,7 @@ def show_ap(host, name):
 def get_ap(wlc):
     ap_template = open('fsm/show_ap_autorf.textfsm')
     ap_re_table  = textfsm.TextFSM(ap_template)
+    print ("Connecting as %s@%s" %(WLC_USER, wlc))
     with ssh_cisco(wlc, WLC_USER, WLC_PASSWORD, device_type='cisco_wlc' ) as w:
         w.execCLI("sh ap summary")
         #print(w.output)
