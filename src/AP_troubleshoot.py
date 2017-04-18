@@ -7,7 +7,7 @@ import sys
 from config import AP_USER,AP_PASSWORD,WLC_USER,WLC_PASSWORD
 from argparse import ArgumentParser
 
-    
+
 def show_ap(host, name):
     with ssh_cisco(host, AP_USER, AP_PASSWORD ) as w:
         w.execCLI("sh controllers dot11Radio 1 | i QBSS")
