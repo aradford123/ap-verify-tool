@@ -31,11 +31,12 @@ def get_ap(wlc):
 
             if int(ap_fsm_results[1])>= THRESHOLD:
                 print ("WLCView AP:%s, TX:%s, Util:%s, Client:%s" %(ap_entry[0],ap_fsm_results[0],ap_fsm_results[1], ap_fsm_results[2]))
-                w.execCLI("config ap SSH enable " + ap_entry[0])
-                print ("Enable ssh for %s: %s" % (ap_entry[0],w.output))
                 w.execCLI("config ap mgmtuser add username {0} password {1} secret {2} {3} ".
                           format(AP_USER, AP_PASSWORD, AP_PASSWORD, ap_entry[0]))
                 print("Enable admin account %s on %s: %s" % (AP_USER, ap_entry[0], w.output))
+                w.execCLI("config ap SSH enable " + ap_entry[0])
+                print ("Enable ssh for %s: %s" % (ap_entry[0],w.output))
+
                 show_ap(ap_entry[1], ap_entry[0])
                 w.execCLI("config ap SSH disable " + ap_entry[0])
                 print ("Disable ssh for %s: %s" % (ap_entry[0],w.output))
