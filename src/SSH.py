@@ -8,8 +8,8 @@ class ssh_cisco(object):
     def __init__(self, ip, username, password, device_type='cisco_ios'):
         # verbose mode
 #        self.kws = {'device_type': device_type, 'verbose' : True, 'ip' : ip, 'username' : username, 'password' : password, 'secret' : password}
-        #self.kws = {'device_type': device_type, 'ip' : ip, 'username' : username, 'password' : password, 'secret' : password, 'global_delay_factor': 2}
-        self.kws = {'device_type': device_type, 'ip' : ip, 'username' : username, 'password' : password, 'secret' : password}
+        self.kws = {'device_type': device_type, 'ip' : ip, 'username' : username, 'password' : password, 'secret' : password, 'global_delay_factor': 2}
+        #self.kws = {'device_type': device_type, 'ip' : ip, 'username' : username, 'password' : password, 'secret' : password}
         self.output=""
     def connect(self):
         self.conn = ConnectHandler(**self.kws)
