@@ -39,8 +39,7 @@ def get_ap(wlc):
                 show_ap(ap_entry[1], ap_entry[0])
                 w.execCLI("config ap SSH disable " + ap_entry[0])
                 print ("Disable ssh for %s: %s" % (ap_entry[0],w.output))
-                w.execCLI("config ap mgmtuser delete username {0} password {1} secret {2} {3} ".
-                          format(AP_USER, AP_PASSWORD, AP_PASSWORD, ap_entry[0]))
+                w.execCLI("config ap mgmtuser delete  {0} ".format(ap_entry[0]))
                 print("Disable  admin account %s on %s: %s" % (AP_USER, ap_entry[0], w.output))
 
 if __name__ == "__main__":
