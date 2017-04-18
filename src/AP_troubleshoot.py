@@ -5,6 +5,7 @@ from SSH import ssh_cisco
 import re
 import sys
 from config import AP_USER,AP_PASSWORD,WLC_USER,WLC_PASSWORD
+from config import THRESHOLD
 from argparse import ArgumentParser
 
 
@@ -15,7 +16,7 @@ def show_ap(host, name):
 def get_ap(wlc):
     ap_template = open('fsm/show_ap_autorf.textfsm')
     ap_re_table  = textfsm.TextFSM(ap_template)
-    print ("Connecting as %s@%s" %(WLC_USER, wlc))
+    print ("Connecting as %s@%s, looking for threshold > %s" %(WLC_USER, wlc, THRESHOLD))
     with ssh_cisco(wlc, WLC_USER, WLC_PASSWORD, device_type='cisco_wlc' ) as w:
         w.execCLI("sh ap summary")
         #print(w.output)
@@ -28,13 +29,19 @@ def get_ap(wlc):
             w.execCLI('show ap auto-rf 802.11a ' + ap_entry[0])
             ap_fsm_results = ap_re_table.ParseText(w.output)[0]
 
-            if int(ap_fsm_results[1])>=80:
+            if int(ap_fsm_results[1])>= THRESHOLD:
                 print ("WLCView AP:%s, TX:%s, Util:%s, Client:%s" %(ap_entry[0],ap_fsm_results[0],ap_fsm_results[1], ap_fsm_results[2]))
                 w.execCLI("config ap SSH enable " + ap_entry[0])
                 print ("Enable ssh for %s: %s" % (ap_entry[0],w.output))
+                w.execCLI("config ap mgmtuser add username {0} password {1} secret {2} {3} ".
+                          format(AP_USER, AP_PASSWORD, AP_PASSWORD, ap_entry[0]))
+                print("Enable admin account %s on %s: %s" % (AP_USER, ap_entry[0], w.output))
                 show_ap(ap_entry[1], ap_entry[0])
                 w.execCLI("config ap SSH disable " + ap_entry[0])
                 print ("Disable ssh for %s: %s" % (ap_entry[0],w.output))
+                w.execCLI("config ap mgmtuser delete username {0} password {1} secret {2} {3} ".
+                          format(AP_USER, AP_PASSWORD, AP_PASSWORD, ap_entry[0]))
+                print("Disable  admin account %s on %s: %s" % (AP_USER, ap_entry[0], w.output))
 
 if __name__ == "__main__":
 
