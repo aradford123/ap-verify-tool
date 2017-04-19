@@ -31,7 +31,7 @@ def get_ap(wlc):
             try:
                 ap_fsm_results = ap_re_table.ParseText(w.output)[0]
             except IndexError:
-                print("skipping show for %s" % ap_entry[0])
+                print("skipping show for %s: %s" % (ap_entry[0], w.output))
                 continue
 
             if int(ap_fsm_results[1])>= THRESHOLD:
