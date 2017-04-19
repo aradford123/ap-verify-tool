@@ -27,7 +27,12 @@ def get_ap(wlc):
             ap_re_table.Reset()            
             print ("AccessPoint:%s" % ap_entry[0])
             w.execCLI('show ap auto-rf 802.11a ' + ap_entry[0])
-            ap_fsm_results = ap_re_table.ParseText(w.output)[0]
+
+            try:
+                ap_fsm_results = ap_re_table.ParseText(w.output)[0]
+            except IndexError:
+                print("skipping show for %s" % ap_entry[0])
+                continue
 
             if int(ap_fsm_results[1])>= THRESHOLD:
                 print ("WLCView AP:%s, TX:%s, Util:%s, Client:%s" %(ap_entry[0],ap_fsm_results[0],ap_fsm_results[1], ap_fsm_results[2]))
