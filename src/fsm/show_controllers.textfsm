@@ -1,0 +1,6 @@
+Value CCA (0x\d+)
+
+
+Start
+	^QBSS Load: cca_load: ${CCA} -> Record
+	^QBSS Load: ${CCA} -> Record

@@ -2,6 +2,7 @@
 from __future__ import print_function
 import jtextfsm as textfsm
 from SSH import ssh_cisco
+import time
 import re
 import sys
 from config import AP_USER,AP_PASSWORD,WLC_USER,WLC_PASSWORD
@@ -10,9 +11,12 @@ from argparse import ArgumentParser
 
 
 def show_ap(host, name):
+    time.sleep(2)
     with ssh_cisco(host, AP_USER, AP_PASSWORD ) as w:
         w.execCLI("sh controllers dot11Radio 1 | i QBSS")
-        print("APview %s: %s: %s" %(host,name,w.output))
+        controllers_template = open("fsm/show_controllers.textfsm")
+        controllers_table = textfsm.TextFSM(controllers_template)
+        print("APview %s: %s: Util %s% %s" %(host,name,controllers_table[0][0],w.output))
 def get_ap(wlc):
     ap_template = open('fsm/show_ap_autorf.textfsm')
     ap_re_table  = textfsm.TextFSM(ap_template)
@@ -23,8 +27,8 @@ def get_ap(wlc):
         template = open("fsm/show_ap_summary.textfsm")
         re_table = textfsm.TextFSM(template)
         fsm_results = re_table.ParseText(w.output)
-	for ap_entry in fsm_results:
-            ap_re_table.Reset()            
+	    for ap_entry in fsm_results:
+            ap_re_table.Reset()
             print ("AccessPoint:%s" % ap_entry[0])
             w.execCLI('show ap auto-rf 802.11a ' + ap_entry[0])
 
@@ -47,6 +51,8 @@ def get_ap(wlc):
                 print ("Disable ssh for %s: %s" % (ap_entry[0],w.output))
                 w.execCLI("config ap mgmtuser delete  {0} ".format(ap_entry[0]))
                 print("Disable  admin account %s on %s: %s" % (AP_USER, ap_entry[0], w.output))
+            else:
+                print("utilization %s less than threshold" % ap_fsm_results[1])
 
 if __name__ == "__main__":
 
