@@ -17,7 +17,7 @@ def show_ap(host, name):
         controllers_template = open("fsm/show_controllers.textfsm")
         controllers_table = textfsm.TextFSM(controllers_template)
         controllers_results = controllers_table.ParseText(w.output)
-        print("APview %s: %s: Util %D %s" %(host, name, int(controllers_results[0][0], 16), w.output))
+        print("APview %s: %s: Util %d %s" %(host, name, int(controllers_results[0][0], 16), w.output))
 
 def get_ap(wlc):
     ap_template = open('fsm/show_ap_autorf.textfsm')
