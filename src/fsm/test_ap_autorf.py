@@ -81,8 +81,8 @@ MAC Address...................................... b0:aa:77:6a:17:88
   Load Information
     Load Profile................................. PASSED
     Receive Utilization.......................... 0 %
-    Transmit Utilization......................... 3 %
-    Channel Utilization.......................... 4 %
+    Transmit Utilization......................... 33 %
+    Channel Utilization.......................... 42 %
     Attached Clients............................. 1 clients
   Coverage Information
     Coverage Profile............................. PASSED
