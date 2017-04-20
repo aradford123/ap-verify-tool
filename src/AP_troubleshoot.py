@@ -27,7 +27,7 @@ def get_ap(wlc):
         template = open("fsm/show_ap_summary.textfsm")
         re_table = textfsm.TextFSM(template)
         fsm_results = re_table.ParseText(w.output)
-	    for ap_entry in fsm_results:
+	for ap_entry in fsm_results:
             ap_re_table.Reset()
             print ("AccessPoint:%s" % ap_entry[0])
             w.execCLI('show ap auto-rf 802.11a ' + ap_entry[0])
