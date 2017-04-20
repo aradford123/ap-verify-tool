@@ -16,7 +16,7 @@ def show_ap(host, name):
         w.execCLI("sh controllers dot11Radio 1 | i QBSS")
         controllers_template = open("fsm/show_controllers.textfsm")
         controllers_table = textfsm.TextFSM(controllers_template)
-        controllers_results = controllers_table(w.output)
+        controllers_results = controllers_table.ParseText(w.output)
         print("APview %s: %s: Util %s% %s" %(host,name,controllers_results[0][0],w.output))
 
 def get_ap(wlc):
